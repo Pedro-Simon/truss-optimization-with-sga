@@ -1,0 +1,156 @@
+
+#:set h 'horizontal'
+#:set v 'vertical'
+
+<SGALayout@BoxLayout>:
+    orientation: h if root.width > root.height else v
+    result: result
+    screen_manager: screen_manager
+    get_from_file: get_from_file
+    ScreenManager:
+        size_hint: .95, 1.
+        pos_hint: {'top': 1., 'x': .025}
+        id: screen_manager
+        Screen:
+            name: 'SGAParams'
+            BoxLayout:
+                orientation: h
+                StackLayout:
+                    padding: 5
+                    size_hint_x: .7
+                    Label:
+                        size_hint_y: .1
+                        text: 'Alfa Min:'
+                    Label:
+                        size_hint_y: .1
+                        text: 'Alfa Initial:'
+                    Label:
+                        size_hint_y: .1
+                        text: 'Iterations:'
+                    Label:
+                        size_hint_y: .1
+                        text: 'Global Iterations Ratio:'
+                    Label:
+                        size_hint_y: .1
+                        text: 'Population:'
+                    Label:
+                        size_hint_y: .1
+                        text: 'Search Group Ratio'
+                    Label:
+                        size_hint_y: .1
+                        text: 'N Perturbed'
+                    Label:
+                        size_hint_y: .1
+                        text: 'Tournament Size'
+                    Label:
+                        size_hint_y: .1
+                        text: 'Alfa Small Value'
+                    Button:
+                        size_hint_y: .1
+                        text: 'Configure objective function >'
+                        on_press:
+                            root.screen_manager.transition.direction = 'left'
+                            root.screen_manager.current = 'ObjectiveFunc'
+                StackLayout:
+                    padding: 5
+                    size_hint_x: .3
+                    TextInput:
+                        size_hint_y: .1
+                        id: alfamin
+                        text: '0.01'
+                    TextInput:
+                        size_hint_y: .1
+                        id: alfainitial
+                        text: '2'
+                    TextInput:
+                        size_hint_y: .1
+                        id: iterations
+                        text: '100'
+                    TextInput:
+                        size_hint_y: .1
+                        id: global_ratio
+                        text: '0.3'
+                    TextInput:
+                        size_hint_y: .1
+                        id: population
+                        text: '100'
+                    TextInput:
+                        size_hint_y: .1
+                        id: search_group_ratio
+                        text: '0.1'
+                    TextInput:
+                        size_hint_y: .1
+                        id: n_pertubed
+                        text: '5'
+                    TextInput:
+                        size_hint_y: .1
+                        id: tournament
+                        text: '4'
+                    TextInput:
+                        size_hint_y: .1
+                        id: small_value
+                        text: '0.0025'
+        Screen:
+            name: 'ObjectiveFunc'
+            BoxLayout:
+                orientation: h
+                StackLayout:
+                    padding: 5
+                    size_hint_x: .3
+                    Label:
+                        size_hint_y: .1
+                        text: 'Lower bounds:'
+                    Label:
+                        size_hint_y: .1
+                        text: 'Upper bounds:'
+                    Label:
+                        size_hint_y: .7
+                        text: 'Objective\n function:'
+                    BoxLayout:
+                        size_hint_y: .1
+                        CheckBox:
+                            id: get_from_file
+                            size_hint_x: .2
+                        Label:
+                            text: 'From file'
+                StackLayout:
+                    padding: 5
+                    size_hint_x: .7
+                    TextInput:
+                        size_hint_y: .1
+                        id: lowers
+                        text: '[10, 10, 0, 0, 0]'
+                    TextInput:
+                        size_hint_y: .1
+                        id: uppers
+                        text: '[100, 100, 3, 3, 3]'
+                    TextInput:
+                        size_hint_y: .7
+                        id: fobj
+                    Button:
+                        size_hint_y: .1
+                        text: '< Configure SGA Parameters'
+                        on_press:
+                            root.screen_manager.transition.direction = 'right'
+                            root.screen_manager.current = 'SGAParams'
+
+    BoxLayout:
+        orientation: v
+        size_hint_y: 1. if root.width > root.height else .3
+        Label:
+            size_hint_y: 0.88 if root.width > root.height else .73
+            id: result
+            text_size: self.size
+            halign: 'left'
+            valign: 'top'
+            text: '  Result'
+        Button:
+            pos_hint: {'x': .25}
+            size_hint_y: 0.1 if root.width > root.height else .3
+            size_hint_x: .5
+            text: 'Optimize!'
+            on_press: root.optimize()
+        Label:
+            size_hint_y: .02
+
+SGALayout:
